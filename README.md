@@ -1,81 +1,110 @@
-# SmartHome
+# Kochat
+[![PyPI version](https://badge.fury.io/py/kochat.svg)](https://badge.fury.io/py/kochat)
+![GitHub](https://img.shields.io/github/license/gusdnd852/kochat)
 
-Smart Home 프로젝트
+![introduction_kochat](https://user-images.githubusercontent.com/38183241/85958000-1b8ed080-b9cd-11ea-99d6-69b472f3e2ff.jpg)
+<br>
 
-- 3/4 한이음 프로젝트에 참여
-- 서로 비슷한 생각을 가진 팀원들이 모여 프로젝트 주제를 정하고 제작
-- 3명이서 시작해서 음성인식이 가능한 IoT 환경 구축을 해보자.
+![](https://user-images.githubusercontent.com/38183241/86410173-4347a680-bcf5-11ea-9261-e272ad21ed36.gif)
+<br><br>
 
-Web 구축 + 디바이스 제어 부분을 담당
+- 챗봇 빌더는 성에 안차고, 자신만의 딥러닝 챗봇 애플리케이션을 만드시고 싶으신가요?
+- Kochat을 이용하면 손쉽게 자신만의 딥러닝 챗봇 애플리케이션을 빌드할 수 있습니다.
 
-프로젝트를 진행하면서 만들었지만 실제 프로젝트에는 사용되지 않은 코드들은 테스트 코드로 올릴 예정
-- 날씨 Api 활용하기, json 데이터 가져오기
+```python
+# 1. 데이터셋 객체 생성
+dataset = Dataset(ood=True)
+
+# 2. 임베딩 프로세서 생성
+emb = GensimEmbedder(model=embed.FastText())
+
+# 3. 의도(Intent) 분류기 생성
+clf = DistanceClassifier(
+    model=intent.CNN(dataset.intent_dict),                  
+    loss=CenterLoss(dataset.intent_dict)                    
+)
+
+# 4. 개체명(Named Entity) 인식기 생성                                                     
+rcn = EntityRecognizer(
+    model=entity.LSTM(dataset.entity_dict),
+    loss=CRFLoss(dataset.entity_dict)
+)
+
+# 5. 딥러닝 챗봇 RESTful API 학습 & 빌드
+kochat = KochatApi(
+    dataset=dataset, 
+    embed_processor=(emb, True), 
+    intent_classifier=(clf, True),
+    entity_recognizer=(rcn, True), 
+    scenarios=[
+        weather, dust, travel, restaurant
+    ]
+)
+
+# 6. View 소스파일과 연결                                                                                                        
+@kochat.app.route('/')
+def index():
+    return render_template("index.html")
+
+# 7. 챗봇 애플리케이션 서버 가동                                                          
+if __name__ == '__main__':
+    kochat.app.template_folder = kochat.root_dir + 'templates'
+    kochat.app.static_folder = kochat.root_dir + 'static'
+    kochat.app.run(port=8080, host='0.0.0.0')
+```
+<br><br>
+
+## Why Kochat?
+- 한국어를 지원하는 최초의 오픈소스 딥러닝 챗봇 프레임워크입니다. (빌더와는 다릅니다.)
+- 다양한 Pre built-in 모델과 Loss함수를 지원합니다. NLP를 잘 몰라도 챗봇을 만들 수 있습니다.
+- 자신만의 커스텀 모델, Loss함수를 적용할 수 있습니다. NLP 전문가에겐 더욱 유용합니다.
+- 챗봇에 필요한 데이터 전처리, 모델, 학습 파이프라인, RESTful API까지 모든 부분을 제공합니다.
+- 가격 등을 신경쓸 필요 없으며, 앞으로도 쭉 오픈소스 프로젝트로 제공할 예정입니다.
+- 아래와 같은 다양한 성능 평가 메트릭과 강력한 시각화 기능을 제공합니다.
+
+![](https://user-images.githubusercontent.com/38183241/86397184-513dfd00-bcde-11ea-9540-aa56a24b6d9b.png)
+
+![](https://user-images.githubusercontent.com/38183241/86397411-b8f44800-bcde-11ea-8b66-22423c12584c.png)
+
+![](https://user-images.githubusercontent.com/38183241/86396855-b47b5f80-bcdd-11ea-9672-4adf0f0ed140.png)
+
+![](https://user-images.githubusercontent.com/38183241/86323429-c62a1c00-bc77-11ea-9caf-ede65f4cbc6c.png)
+<br><br><br>
+
+## Documentation
+
+1. [Kochat이란?](https://github.com/gusdnd852/kochat/tree/master/docs/01_kochat_이란.md)
+2. [About Chatbot](https://github.com/gusdnd852/kochat/tree/master/docs/02_about_chatbot.md)
+3. [Getting Started](https://github.com/gusdnd852/kochat/tree/master/docs/03_getting_started.md)
+4. [Usage](https://github.com/gusdnd852/kochat/tree/master/docs/04_usage.md)
+5. [Visualization Support](https://github.com/gusdnd852/kochat/tree/master/docs/05_visualization_support.md)
+6. [Performance Issue](https://github.com/gusdnd852/kochat/tree/master/docs/06_performance_issue.md)
+7. [Demo](https://github.com/gusdnd852/kochat/tree/master/docs/07_demo.md)
 
 
-# 작품 개요
+<br>
 
-라즈베리 파이안에 사용자의 명령을 처리해주는 딥러닝 기반의 NLP 어시스턴트 서버와, java기반의 웹 프레임워크인 Spring boot 서버를 만들고, 
-핸드폰 어플리케이션을 firebase DB와 연동하여 실내에서는 스마트 미러로 장치를 제어할 수 있고, 
-실외에서는 스마트폰으로 집안의 장치들을 제어할 수 있다.
+## Reference
+- [챗봇 분류 그림](https://towardsdatascience.com/chatbots-are-cool-a-framework-using-python-part-1-overview-7c69af7a7439)
+- [seq2seq 그림](https://mc.ai/implement-of-seq2seq-model/)
+- [Fallback Detection 그림](https://docs.smartly.ai/docs/intent-detection)
+- [데모 애플리케이션 템플릿](https://bootsnipp.com/snippets/ZlkBn)
+- 그 외의 그림 및 소스코드 : 본인 제작
+<br><br><br>
 
+## License
+```
+Copyright 2020 Hyunwoong Ko.
 
-# 주요 기능 및 기술
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
--	음성인식을 통해 LED, 창문, 블라인드 제어 가능 및 날씨 정보 출력
--	안드로이드 앱 및 웹 서버에서 회원가입을 통해 회원 별 장치제어 가능
--	웹 서버에서 채팅지원 시스템 지원
--	데이터베이스에 연결 장치의 상태 저장
--	사용자 가정 내 연결된 디바이스들의 정보를 웹, 앱 안에서 볼 수 있음.
--	스마트 미러를 통해 화면이 꺼져 있으면 거울 켜져 있으면 모니터로 활용 가능 
+http://www.apache.org/licenses/LICENSE-2.0
 
-# 개발 환경
-
-음성인식
-- 개발언어 : python,java
-- DB : Firebase
-- 사용 라이브러리: pytorch,kocrawl,kochat,Gtts,flask
-- 사용된 보드: raspberryPi4 8G
-
-웹UI
-- 개발언어: JS,HTML5
-- 개발환경: Eclipse
-- DB: Firebase
-- 사용된 보드: raspberryPi4 8G
-
-앱UI
-- 개발언어: JAVA
-- 개발환경: Android Studio
-- DB: Firebase
-
-IoT장치
-- 개발언어: C
-- 개발환경: Arduino IDE
-- 사용된 보드:esp-8266
-- 연결된 센서: LED, 기어모터, PDLC 필름, 릴레이/ 추가예정: 빗물감지 센서, 조도 센서
-- DB: Firebase
-
-
-# 시스템 구성도
-
-![image](https://user-images.githubusercontent.com/116075431/197699175-081d967e-5c20-48cf-b5bc-ebbdf4bbb7f9.png)
-
-
-# 모니터 UI
-
-![image](https://user-images.githubusercontent.com/116075431/197977836-7c1fe859-79cd-4c2b-8e29-953bea8c1886.png)
-
-
-# 어플리케이션 UI
-
-![image](https://user-images.githubusercontent.com/116075431/197977967-385f5280-6526-4c6f-8beb-cb8fed4a3a5f.png)
-
-
-# 창문 하드웨어
-
-![image](https://user-images.githubusercontent.com/116075431/197978036-5e7e19f9-9e10-4902-bc27-30867630b952.png)
- 
-현재 하드웨어 제작중에 있으며 제작이 완료되면 전체적인 사직 업로드 예정
-
-
-해당 프로젝트는 hyunwoongko님이 올리신 kochat-master와 kocrawl API를 사용하여 자연어처리를 개발하였습니다. 
-URL: https://github.com/hyunwoongko/kochat
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
