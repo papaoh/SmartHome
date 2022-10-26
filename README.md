@@ -54,18 +54,28 @@ IoT장치
 - 연결된 센서: LED, 기어모터, PDLC 필름, 릴레이/ 추가예정: 빗물감지 센서, 조도 센서
 - DB: Firebase
 
+
 # 시스템 구성도
+
 ![image](https://user-images.githubusercontent.com/116075431/197699175-081d967e-5c20-48cf-b5bc-ebbdf4bbb7f9.png)
 
+
 # 모니터 UI
+
 ![image](https://user-images.githubusercontent.com/116075431/197977836-7c1fe859-79cd-4c2b-8e29-953bea8c1886.png)
 
+
 # 어플리케이션 UI
+
 ![image](https://user-images.githubusercontent.com/116075431/197977967-385f5280-6526-4c6f-8beb-cb8fed4a3a5f.png)
 
+
 # 창문 하드웨어
+
 ![image](https://user-images.githubusercontent.com/116075431/197978036-5e7e19f9-9e10-4902-bc27-30867630b952.png)
- 현재 하드웨어 제작중에 있으며 제작이 완료되면 전체적인 사직 업로드 예정
+ 
+현재 하드웨어 제작중에 있으며 제작이 완료되면 전체적인 사직 업로드 예정
+
 
 해당 프로젝트는 hyunwoongko님이 올리신 kochat-master와 kocrawl API를 사용하여 자연어처리를 개발하였습니다. 
 URL: https://github.com/hyunwoongko/kochat
