@@ -70,11 +70,10 @@ IoT장치
 ![image](https://user-images.githubusercontent.com/116075431/197977967-385f5280-6526-4c6f-8beb-cb8fed4a3a5f.png)
 
 
-# 창문 하드웨어
+# 하드웨어
 
-![image](https://user-images.githubusercontent.com/116075431/197978036-5e7e19f9-9e10-4902-bc27-30867630b952.png)
+![smart](https://user-images.githubusercontent.com/116075431/201556616-192f1785-10f4-42fb-8a71-709994504338.jpg)
  
-현재 하드웨어 제작중에 있으며 제작이 완료되면 전체적인 사직 업로드 예정
 
 
 해당 프로젝트는 hyunwoongko님이 올리신 kochat-master와 kocrawl API를 사용하여 자연어처리를 개발하였습니다. 
