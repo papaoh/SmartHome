@@ -1,11 +1,10 @@
-# SmartHome
-
-Smart Home 프로젝트
+# SmartHome 프로젝트
 
 - 3/4 한이음 프로젝트에 참여
-- Kochat-master = 자연어 처리(음성인식) 및 웹 페이지 서버
+- Kochat-master = 자연어 처리(음성인식) 및 웹 페이지 서버 (작업한 코드는 
 - Kocrawl = 자연어 처리에 필요한 기능
 - 3명의 팀원이 분야를 나누어서 프로젝트 시작
+
 
 Web 구축 + 디바이스 제어 부분을 담당
 
